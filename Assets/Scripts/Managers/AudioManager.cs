@@ -52,6 +52,9 @@ namespace Managers
                 case Event.PLAYER_DEATH:
                     Debug.Log("DEath Sound.");
                     break;
+                case Event.PLAYER_WIN:
+                    Debug.Log("Win Sound.");
+                    break;
             }
         }
     }

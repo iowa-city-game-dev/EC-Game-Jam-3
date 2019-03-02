@@ -23,6 +23,7 @@ namespace Managers
         PLAYER_DEATH,
         PLAYER_JUMP,
         PLAYER_LAND,
+        PLAYER_WIN,
         COLLECT_COIN
     }
 }

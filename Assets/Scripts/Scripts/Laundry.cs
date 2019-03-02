@@ -11,10 +11,10 @@ namespace Scripts
         float _speed = 0.1f;
         private LaundryManager _laundryManager;
 
-        public void Initialize(Sprite _sprite)
+        public void Initialize(Sprite sprite)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            sr.sprite = _sprite;
+            sr.sprite = sprite;
             GetComponent<BoxCollider2D>().isTrigger = true;
 
             // We can do this here, so we move the expensive calls out of other palces
