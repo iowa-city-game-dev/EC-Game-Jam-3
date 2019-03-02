@@ -9,19 +9,19 @@ namespace UI
         public Button startButton;
         public Button levelButton;
         public Button controlButton;
-        LevelManager lvlManager;
-
         public Image[] knobs;
 
-        int currentselection;
+        LevelManager _lvlManager;
+        int _currentSelection;
 
         private void Start()
         {
-            lvlManager = GetComponent<LevelManager>();
-            currentselection = 0;
-            for (int i = 0; i < knobs.Length; i++)
+            _lvlManager = GetComponent<LevelManager>();
+            _currentSelection = 0;
+            
+            foreach (var knob in knobs)
             {
-                knobs[i].enabled = false;
+                knob.enabled = false;
             }
 
             knobs[0].enabled = true;
@@ -35,24 +35,22 @@ namespace UI
 
         void HandleInput()
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow) && currentselection != 2)
+            if (Input.GetKeyDown(KeyCode.DownArrow) && _currentSelection++ != 2)
             {
-                currentselection++;
-                Selection(currentselection);
+                Selection(_currentSelection);
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && currentselection != 0)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && _currentSelection-- != 0)
             {
-                currentselection--;
-                Selection(currentselection);
+                Selection(_currentSelection);
             }
 
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-                switch (currentselection)
+                switch (_currentSelection)
                 {
                     case 0:
-                        lvlManager.LoadLevel(1);
+                        _lvlManager.LoadLevel(1);
                         break;
                     case 1:
                         //level select
