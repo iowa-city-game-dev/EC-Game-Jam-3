@@ -1,26 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Event = Managers.Event;
 
-public class Subject : MonoBehaviour
+namespace Utility
 {
-    public List<Observer> observers = new List<Observer>();
-    int numOfObservers;
-
-  public void addObserver(Observer observer)
+    public class Subject : MonoBehaviour
     {
-        observers.Add(observer);
-    }
+        public List<Observer> observers = new List<Observer>();
+        int _numOfObservers;
 
-    public void removeObserver(Observer obj)
-    {
-        observers.Remove(obj);
-    }
-
-    public void notify(Event stuff){
-        foreach (var thing in observers)
+        public void AddObserver(Observer observer)
         {
-            thing.OnNotify(stuff);
+            observers.Add(observer);
+        }
+
+        public void RemoveObserver(Observer obj)
+        {
+            observers.Remove(obj);
+        }
+
+        public void Notify(Event stuff)
+        {
+            foreach (var thing in observers)
+            {
+                thing.OnNotify(stuff);
+            }
         }
     }
 }

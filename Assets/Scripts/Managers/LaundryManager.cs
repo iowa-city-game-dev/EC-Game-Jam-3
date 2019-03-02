@@ -1,52 +1,57 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Scripts;
 using UnityEngine;
+using Utility;
 
-public class LaundryManager : Subject
+namespace Managers
 {
-    public Sprite[] laundrySprites;
-    public Laundry[] laundryInLevel;
-
-
-    public List<Laundry> activeLaundry = new List<Laundry>();
-
-    public int CollectedLaundry;
-    public int initialLaundry;
-
-    private void Start()
+    public class LaundryManager : Subject
     {
+        public Sprite[] laundrySprites;
+        public Laundry[] laundryInLevel;
 
-        initialLaundry = laundryInLevel.Length;
-        for (int i = 0; i < laundryInLevel.Length; i++)
+
+        public List<Laundry> activeLaundry = new List<Laundry>();
+
+        public int CollectedLaundry;
+        public int initialLaundry;
+
+        private void Start()
         {
-            activeLaundry.Add(laundryInLevel[i]);
-            int sp = Random.Range(0, laundrySprites.Length);
-            laundryInLevel[i].Initialize(laundrySprites[sp]);
-            laundryInLevel[i].transform.SetParent(this.transform);
-        }
-    }
-    private void Update()
-    {
-        foreach (var laundry in activeLaundry)
-        {
-            laundry.Animate();
-        }
-    }
-    public void UpdateLaundryCount(Laundry laundry)
-    {
-        CollectedLaundry++;
-        for (int i = 0; i < activeLaundry.Count; i++)
-        {
-            if (laundry == activeLaundry[i])
+            initialLaundry = laundryInLevel.Length;
+            for (int i = 0; i < laundryInLevel.Length; i++)
             {
-                activeLaundry.RemoveAt(i);
+                activeLaundry.Add(laundryInLevel[i]);
+                int sp = Random.Range(0, laundrySprites.Length);
+                laundryInLevel[i].Initialize(laundrySprites[sp]);
+                laundryInLevel[i].transform.SetParent(this.transform);
             }
         }
-    }
-    public void notifyStart() {
-        //calls on notify in a timely fashion
-        notify(Event.COLLECT_COIN);
-    }
 
+        private void Update()
+        {
+            foreach (var laundry in activeLaundry)
+            {
+                laundry.Animate();
+            }
+        }
 
+        public void UpdateLaundryCount(Laundry laundry)
+        {
+            CollectedLaundry++;
+            for (int i = 0; i < activeLaundry.Count; i++)
+            {
+                if (laundry == activeLaundry[i])
+                {
+                    activeLaundry.RemoveAt(i);
+                }
+            }
+        }
+
+        public void NotifyStart()
+        {
+            //calls on notify in a timely fashion
+            Notify(Event.COLLECT_COIN);
+        }
+    }
 }

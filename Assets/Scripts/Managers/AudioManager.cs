@@ -1,58 +1,58 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Scripts;
 using UnityEngine;
-[RequireComponent(typeof(AudioSource))]
-public class AudioManager : Observer
+using Utility;
+
+namespace Managers
 {
-    AudioSource source;
-    public AudioClip collectionSound;
-    public AudioClip jumpSound;
-    public AudioClip landSound;
-    public AudioClip deathSound;
-
-    private void Awake()
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioManager : Observer
     {
-        source = GetComponent<AudioSource>();
+        AudioSource _source;
+        public AudioClip collectionSound;
+        public AudioClip jumpSound;
+        public AudioClip landSound;
+        public AudioClip deathSound;
 
-        Player player = FindObjectOfType(typeof(Player)) as Player;
-        player.addObserver(this);
-
-        LaundryManager lm = FindObjectOfType(typeof(LaundryManager))as LaundryManager;
-        lm.addObserver(this);
-        lm.addObserver(this);
-     
-    }
-    void PlayVFX(AudioClip clip)
-    {
-        source.pitch = Random.Range(0.9f, 1.1f);
-        source.volume = Random.Range(0.9f, 1.1f);
-        source.clip = clip;
-        source.Play();
-
-    }
-
-
-
-
-
-    public override void OnNotify(Event thing)
-    {
-        Debug.Log("notes received");
-        //responds to events
-        switch (thing)
+        private void Awake()
         {
-            case Event.COLLECT_COIN:
-                Debug.Log("Coin Collect Sound.");
-                break;
-            case Event.PLAYER_JUMP:
-                Debug.Log("Jump Sound.");
-                break;
-            case Event.PLAYER_LAND:
-                Debug.Log("Land Sound.");
-                break;
-            case Event.PLAYER_DEATH:
-                Debug.Log("DEath Sound.");
-                break;
+            _source = GetComponent<AudioSource>();
+
+            Player player = FindObjectOfType(typeof(Player)) as Player;
+            player.AddObserver(this);
+
+            LaundryManager lm = FindObjectOfType(typeof(LaundryManager)) as LaundryManager;
+            lm.AddObserver(this);
+            lm.AddObserver(this);
+        }
+
+        void PlayVFX(AudioClip clip)
+        {
+            _source.pitch = Random.Range(0.9f, 1.1f);
+            _source.volume = Random.Range(0.9f, 1.1f);
+            _source.clip = clip;
+            _source.Play();
+        }
+
+
+        public override void OnNotify(Event thing)
+        {
+            Debug.Log("notes received");
+            //responds to events
+            switch (thing)
+            {
+                case Event.COLLECT_COIN:
+                    Debug.Log("Coin Collect Sound.");
+                    break;
+                case Event.PLAYER_JUMP:
+                    Debug.Log("Jump Sound.");
+                    break;
+                case Event.PLAYER_LAND:
+                    Debug.Log("Land Sound.");
+                    break;
+                case Event.PLAYER_DEATH:
+                    Debug.Log("DEath Sound.");
+                    break;
+            }
         }
     }
 }

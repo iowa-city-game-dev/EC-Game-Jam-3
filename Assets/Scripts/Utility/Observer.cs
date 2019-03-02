@@ -1,9 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Event = Managers.Event;
 
-public class Observer : MonoBehaviour
+namespace Utility
 {
-    public virtual void OnNotify(Event @event) { }
-
+    public class Observer : MonoBehaviour
+    {
+        public virtual void OnNotify(Event @event)
+        {
+        }
+    }
 }
