@@ -145,7 +145,7 @@ RectTransform:
   - {fileID: 274774004}
   - {fileID: 1089109043}
   m_Father: {fileID: 1027264627}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -692,7 +692,7 @@ RectTransform:
   - {fileID: 1668885158}
   - {fileID: 1907059284}
   m_Father: {fileID: 1027264627}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -948,8 +948,8 @@ RectTransform:
   - {fileID: 306730687}
   - {fileID: 745944178}
   - {fileID: 542899841}
-  - {fileID: 82388653}
   - {fileID: 718140711}
+  - {fileID: 82388653}
   - {fileID: 1974616694}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -995,8 +995,8 @@ MonoBehaviour:
   controlButton: {fileID: 718140712}
   knobs:
   - {fileID: 90773660}
-  - {fileID: 1089109044}
   - {fileID: 1907059285}
+  - {fileID: 1089109044}
 --- !u!114 &1027264630
 MonoBehaviour:
   m_ObjectHideFlags: 0

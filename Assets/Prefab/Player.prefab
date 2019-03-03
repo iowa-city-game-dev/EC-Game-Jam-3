@@ -102,8 +102,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e84ac53d491ad44d39ae532804a23d6f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: b1ad20001eb51b446bec75d7e358c208, type: 3}
+  m_Color: {r: 1, g: 0.21226418, b: 0.21226418, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -122,15 +122,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8908078129757294302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d5c1c7bd5234f0ca93033d16f87825, type: 3}
+  m_Script: {fileID: 11500000, guid: 2af1d1b17f49bb34ea3e3cb55913b4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
-  JumpHeight: 70
+  observers: []
+  speed: 5
+  jumpHeight: 1000
   platformLayer:
     serializedVersion: 2
-    m_Bits: 512
-  groundCheck: {fileID: 1176259291}
+    m_Bits: 0
+  groundCheck: {fileID: 0}
 --- !u!50 &8908078129757294275
 Rigidbody2D:
   serializedVersion: 4

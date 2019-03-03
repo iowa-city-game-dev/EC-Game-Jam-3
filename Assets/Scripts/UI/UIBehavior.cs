@@ -13,12 +13,13 @@ namespace UI
 
         LevelManager _lvlManager;
         int _currentSelection;
+        private int _numberOfOptions = 3;
 
         private void Start()
         {
             _lvlManager = GetComponent<LevelManager>();
             _currentSelection = 0;
-            
+
             foreach (var knob in knobs)
             {
                 knob.enabled = false;
@@ -33,15 +34,17 @@ namespace UI
             HandleInput();
         }
 
-        void HandleInput()
+        private void HandleInput()
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow) && _currentSelection++ != 2)
+            if (Input.GetKeyDown(KeyCode.DownArrow) && _currentSelection != 2)
             {
-                Selection(_currentSelection);
+                _currentSelection++;
+                Selection(Mathf.Clamp(_currentSelection, 0, knobs.Length));
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && _currentSelection-- != 0)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && _currentSelection != 0)
             {
+                _currentSelection--;
                 Selection(_currentSelection);
             }
 
@@ -64,34 +67,38 @@ namespace UI
             }
         }
 
-        void Selection(int cs)
+        private void Selection(int cs)
         {
+            ResetKnobs();
+            knobs[cs].enabled = true;
+
             switch (cs)
             {
                 case 0:
-                    knobs[0].enabled = true;
-                    knobs[1].enabled = false;
-                    knobs[2].enabled = false;
                     startButton.image.color = new Color(1, 1, 1, 0.75f);
                     levelButton.image.color = new Color(1, 1, 1, 0.50f);
                     controlButton.image.color = new Color(1, 1, 1, 0.50f);
                     break;
+
                 case 1:
-                    knobs[0].enabled = false;
-                    knobs[1].enabled = true;
-                    knobs[2].enabled = false;
-                    startButton.image.color = new Color(1, 1, 1, 0.50f);
-                    levelButton.image.color = new Color(1, 1, 1, 0.75f);
-                    controlButton.image.color = new Color(1, 1, 1, 0.50f);
-                    break;
-                case 2:
-                    knobs[0].enabled = false;
-                    knobs[1].enabled = false;
-                    knobs[2].enabled = true;
                     startButton.image.color = new Color(1, 1, 1, 0.50f);
                     levelButton.image.color = new Color(1, 1, 1, 0.50f);
                     controlButton.image.color = new Color(1, 1, 1, 0.75f);
                     break;
+
+                case 2:
+                    startButton.image.color = new Color(1, 1, 1, 0.50f);
+                    levelButton.image.color = new Color(1, 1, 1, 0.75f);
+                    controlButton.image.color = new Color(1, 1, 1, 0.50f);
+                    break;
+            }
+        }
+
+        private void ResetKnobs()
+        {
+            foreach (var knob in knobs)
+            {
+                knob.enabled = false;
             }
         }
     }
