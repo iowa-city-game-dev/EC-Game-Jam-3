@@ -14,6 +14,15 @@ namespace Managers
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                // Let's just end the game here
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            }
         }
     }
 

@@ -48,8 +48,8 @@ namespace Scripts
 
         private void Update()
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, platformLayer);
-            if (hit.transform != null && hit.transform.CompareTag("Spikes"))
+            var hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, platformLayer);
+            if (hit.transform && hit.transform.CompareTag("Spikes"))
             {
                 //watch out for spikes
                 _state = PlayerState.Death;
