@@ -19,12 +19,12 @@ namespace Managers
         private void Start()
         {
             initialLaundry = laundryInLevel.Length;
-            for (int i = 0; i < laundryInLevel.Length; i++)
+            foreach (var laundry in laundryInLevel)
             {
-                activeLaundry.Add(laundryInLevel[i]);
-                int sp = Random.Range(0, laundrySprites.Length);
-                laundryInLevel[i].Initialize(laundrySprites[sp]);
-                laundryInLevel[i].transform.SetParent(this.transform);
+                activeLaundry.Add(laundry);
+                var sp = Random.Range(0, laundrySprites.Length);
+                laundry.Initialize(laundrySprites[sp]);
+                laundry.transform.SetParent(transform);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Managers
         public void UpdateLaundryCount(Laundry laundry)
         {
             CollectedLaundry++;
-            for (int i = 0; i < activeLaundry.Count; i++)
+            for (var i = 0; i < activeLaundry.Count; i++)
             {
                 if (laundry == activeLaundry[i])
                 {

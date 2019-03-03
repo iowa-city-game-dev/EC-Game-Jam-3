@@ -11,10 +11,10 @@ namespace Scripts
     public class Player : Subject
     {
         //components
-        //BoxCollider2D col;
+        BoxCollider2D col;
         Rigidbody2D rb;
 
-        private PlayerState state;
+        private PlayerState _state;
 
         //physics
         public float speed = 5f;
@@ -22,19 +22,28 @@ namespace Scripts
         float maxAcceleration = 10f;
 
         bool isGrounded;
+        bool isPaused;
+
         public LayerMask platformLayer;
         public Transform groundCheck;
 
         private void Start()
         {
-            state = PlayerState.Idle;
+            _state = PlayerState.Idle;
             rb = GetComponent<Rigidbody2D>();
+            col = GetComponent<BoxCollider2D>();
+
+            col.enabled = true;
             isGrounded = true;
+            isPaused = false;
         }
 
         private void FixedUpdate()
         {
-            HandlePlayerState();
+            if (!isPaused)
+            {
+                HandlePlayerState();
+            }
         }
 
         private void Update()
@@ -43,29 +52,33 @@ namespace Scripts
             if (hit.transform != null && hit.transform.CompareTag("Spikes"))
             {
                 //watch out for spikes
-                state = PlayerState.Death;
+                _state = PlayerState.Death;
+            }
+            else if (hit.transform && hit.transform.CompareTag("Goal"))
+            {
+                _state = PlayerState.PlayerWin;
             }
         }
 
         private void HandlePlayerState()
         {
-            switch (state)
+            switch (_state)
             {
                 case PlayerState.Idle:
                     if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                     {
                         //handle Idle State Change
-                        state = PlayerState.Walking;
+                        _state = PlayerState.Walking;
                     }
                     else if (Input.GetKeyDown(KeyCode.UpArrow) && rb.velocity.y == 0f)
                     {
                         rb.AddForce(new Vector2(0, jumpHeight));
                         isGrounded = false;
-                        state = PlayerState.Jumping;
+                        _state = PlayerState.Jumping;
                     }
                     else if (Input.GetKeyDown(KeyCode.DownArrow))
                     {
-                        state = PlayerState.Ducking;
+                        _state = PlayerState.Ducking;
                     }
 
                     break;
@@ -74,17 +87,17 @@ namespace Scripts
                     //handle walking State Change
                     if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
                     {
-                        state = PlayerState.Idle;
+                        _state = PlayerState.Idle;
                     }
                     else if (Input.GetKeyDown(KeyCode.UpArrow) && rb.velocity.y == 0f)
                     {
                         rb.AddForce(new Vector2(0, jumpHeight));
                         isGrounded = false;
-                        state = PlayerState.Jumping;
+                        _state = PlayerState.Jumping;
                     }
                     else if (Input.GetKeyDown(KeyCode.DownArrow))
                     {
-                        state = PlayerState.Ducking;
+                        _state = PlayerState.Ducking;
                     }
 
 //handle walking code
@@ -101,7 +114,7 @@ namespace Scripts
 
                     if (hit.transform)
                     {
-                        if (hit.collider.transform.tag == ("Platforms"))
+                        if (hit.collider.transform.CompareTag(("Platforms")))
                         {
                             isGrounded = true;
                         }
@@ -110,14 +123,14 @@ namespace Scripts
                     //handle Jumping State Change
                     if (isGrounded)
                     {
-                        state = PlayerState.Idle;
+                        _state = PlayerState.Idle;
                     }
 
                     break;
 
                 case PlayerState.Landing:
 //handle Landing State Change
-                    state = PlayerState.Idle;
+                    _state = PlayerState.Idle;
 
                     break;
 
@@ -125,7 +138,7 @@ namespace Scripts
                     //handle Ducking State Change
                     if (Input.GetKeyUp(KeyCode.DownArrow))
                     {
-                        state = PlayerState.Idle;
+                        _state = PlayerState.Idle;
                     }
 
 //handle Ducking code
@@ -136,6 +149,11 @@ namespace Scripts
                     StartCoroutine(HandlePlayerDeath());
                     break;
 
+                case PlayerState.PlayerWin:
+                    Debug.Log("*** Player Win ***");
+                    StartCoroutine(HandlePlayerWin());
+                    break;
+                
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -171,6 +189,15 @@ namespace Scripts
             yield return new WaitForSeconds(0.5f);
             Notify(Event.PLAYER_DEATH);
         }
+
+        IEnumerator HandlePlayerWin()
+        {
+            col.enabled = false;
+            isPaused = true;
+            
+            yield return new WaitForSeconds(0.5f);
+            Notify(Event.PLAYER_WIN);
+        }
     }
 
     enum PlayerState
@@ -180,6 +207,7 @@ namespace Scripts
         Jumping,
         Landing,
         Ducking,
-        Death
+        Death,
+        PlayerWin
     }
 }
